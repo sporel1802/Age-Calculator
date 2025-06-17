@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age calculator</title>
+    <style>
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    color: rgb(21, 178, 178);
+    padding: 10px;
+    background-color: rgb(138, 89, 183);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.claculator {
+    width: 90%;
+    max-width: 600px;
+    margin-top: 10vh;
+}
+
+.claculator h1 {
+    font-size: 5vw;
+    text-align: center;
+    color: #fff;
+}
+
+/* Clamp font-size for better scaling */
+.claculator h1 {
+    font-size: clamp(32px, 6vw, 60px);
+}
+
+.input-box {
+    margin: 40px 0;
+    padding: 25px;
+    display: flex;
+    flex-wrap: wrap; /* Wrap inputs on smaller screens */
+    gap: 20px;
+    background-color: rgb(60, 112, 186);
+    border-radius: 15px;
+    justify-content: center;
+}
+
+.input-box input,
+.input-box button {
+    flex: 1 1 250px; /* Grow and shrink but prefer 250px width */
+    min-width: 200px;
+    padding: 14px 20px;
+    font-size: 18px;
+    border-radius: 155px;
+    border: none;
+    position: relative;
+}
+
+.input-box input {
+    background-color: wheat;
+}
+
+.input-box button {
+    background-color: yellowgreen;
+    cursor: pointer;
+}
+#print{
+    font-size: 18px;
+    color: aliceblue;
+}
+/* Media Query for very small screens */
+@media (max-width: 768px) {
+    .input-box {
+        padding: 15px;
+    }
+
+    .input-box input,
+    .input-box button {
+        font-size: 16px;
+        padding: 12px 16px;
+        min-width: 100%;
+    }
+
+    .claculator h1 {
+        font-size: 32px;
+    }
+    
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="claculator">
+            <h1>Age Calculator</h1>
+            <div class="input-box">
+                <input type="date" id="date">
+                <button onclick="calculateage()">calculator</button>
+            </div>
+            <div id="print"></div>
+        </div>
+    </div>
+
+    <script>
+        let userinput=document.getElementById("date")
+        userinput.max = new Date().toISOString().split("T")[0];
+
+        function calculateage(){
+            let birthdate=new Date(userinput.value);
+
+            let d1=birthdate.getDate();
+            let m1=birthdate.getMonth()+1;
+            let y1=birthdate.getFullYear();
+
+            let today=new Date();
+            let d2=today.getDate();
+            let m2=today.getMonth()+1;
+            let y2=today.getFullYear();
+
+            let m3 ,y3 ,d3;
+            y3=y2-y1;
+            if(m2>=m1){
+             m3=m2-m1;
+            }else{
+                y3--;
+                m3=m2+12-m1;
+            }
+            if(d2>=d1){
+                d3=d2-d1;
+            }else{
+                m3--;
+                d3=getbymonth(y2, m2 - 1) + d2 - d1;
+            }
+            if(m3<0){
+                m3=11;
+                y3--;
+            }
+            console.log(y3,m3,d3);
+
+               let print = document.getElementById("print");
+        print.innerHTML = `YOUR AGE ${y3} YEARS, ${m3} MONTH AND ${d3} DAYS`;
+        }
+        function getbymonth(year,month){
+            return new Date(year,month,0).getDate() // for calculate the last month
+
+        }
+        
+
+    </script>
+    
+</body>
+</html>
